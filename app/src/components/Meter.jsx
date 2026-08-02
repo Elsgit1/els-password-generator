@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { animated, useSpring } from 'react-spring';
+import { animated, useSpring } from '@react-spring/web';
 import config from 'config';
 import { media } from 'styles/helpers';
 import useTheme from 'hooks/useTheme';
