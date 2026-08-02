@@ -4,8 +4,8 @@
 FROM node:22-alpine AS build
 WORKDIR /app
 
-# pnpm is the package manager for this repo (pnpm-lock.yaml)
-RUN npm install -g pnpm
+# Pin the exact pnpm version to match the pnpm-lock.yaml
+RUN npm install -g pnpm@10.34.5
 
 # Install dependencies first for better layer caching
 COPY package.json pnpm-lock.yaml ./
