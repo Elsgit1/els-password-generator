@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: els-password-generator
+  namespace: els-password-generator
+  labels:
+    app: els-password-generator
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: els-password-generator
+  template:
+    metadata:
+      labels:
+        app: els-password-generator
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 101
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: els-password-generator
+          image: elsdokr/els-password-generator:v1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: els-password-generator
+  namespace: els-password-generator
+  labels:
+    app: els-password-generator
+spec:
+  type: ClusterIP
+  selector:
+    app: els-password-generator
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: http

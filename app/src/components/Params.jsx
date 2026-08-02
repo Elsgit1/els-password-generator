@@ -4,7 +4,7 @@ import config from 'config';
 import PasswordParams from 'components/PasswordParams';
 import PassphraseParams from 'components/PassphraseParams';
 import { media } from 'styles/helpers';
-import { useTransition, animated } from 'react-spring';
+import { useTransition, animated } from '@react-spring/web';
 
 const Styles = styled.div`
   background: white;

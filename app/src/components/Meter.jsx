@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { animated, useSpring } from 'react-spring';
+import { animated, useSpring } from '@react-spring/web';
 import config from 'config';
 import { media } from 'styles/helpers';
 import useTheme from 'hooks/useTheme';
-import { ReactComponent as CoolFace } from 'images/cool.svg';
-import { ReactComponent as HappyFace } from 'images/smile.svg';
-import { ReactComponent as NervousFace } from 'images/eek.svg';
+import CoolFace from 'images/cool.svg?react';
+import HappyFace from 'images/smile.svg?react';
+import NervousFace from 'images/eek.svg?react';
 
 const Styles = styled.div`
   display: flex;

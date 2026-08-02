@@ -1,21 +1,27 @@
-# Use an official Nginx image as the base image
-FROM nginx:alpine
+# syntax=docker/dockerfile:1
 
-# Set the working directory
-WORKDIR /usr/share/nginx/html
+# ---- Build stage: compile the Vite/React app to static assets ----
+FROM node:22-alpine AS build
+WORKDIR /app
 
-# Copy package.json and lock file (if exists)
-COPY package*.json ./
+# Pin the exact pnpm version to match the pnpm-lock.yaml
+RUN npm install -g pnpm@10.34.5
 
-# Install only production dependencies
-RUN apk add --no-cache nodejs npm && \
-    npm install --only=production --ignore-scripts
+# Install dependencies first for better layer caching
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
 
-# Copy the application source code to Nginx's default public directory
+# Build the production bundle into /app/dist
 COPY . .
+RUN pnpm build
 
-# Expose port 80 for HTTP traffic
-EXPOSE 80
+# ---- Runtime stage: serve static assets with a rootless nginx ----
+FROM nginxinc/nginx-unprivileged:alpine
 
-# Containers run nginx with global directives and daemon off
+# Only the compiled static output is shipped in the final image
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Rootless nginx listens on 8080 (no privileged port, runs as uid 101)
+EXPOSE 8080
+
 CMD ["nginx", "-g", "daemon off;"]
