@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Button from 'components/common/Button';
-import { ReactComponent as RefreshIcon } from 'images/repeat.svg';
+import RefreshIcon from 'images/repeat.svg?react';
 
 const Styles = styled.div`
   margin: 2rem 0;
