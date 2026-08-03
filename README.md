@@ -19,10 +19,9 @@ A password/passphrase generator web app, packaged as a container and deployed to
 ## Where things run
 
 - The container registries (Amazon ECR, Docker Hub) store the built images.
-- The Kubernetes cluster and ArgoCD itself are provisioned by a separate infrastructure repo in the same GitHub org.
+- The Kubernetes cluster and ArgoCD itself are provisioned by a separate [infrastructure repo](https://github.com/Elsgit1/els-k8s-infra) in the same GitHub org.
 - This repo only owns the application code and the manifests describing how it should be deployed - it doesn't manage the cluster itself.
 
-## Note:
-
-- The base app was developed by [Joel Barlett](https://github.com/murbar).
+## Credit:
+- The appication code was developed by [Joel Barlett](https://github.com/murbar).
 - Preview the app here: https://pwgen.joelb.dev/
