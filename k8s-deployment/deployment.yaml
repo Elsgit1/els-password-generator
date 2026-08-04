@@ -22,6 +22,8 @@ spec:
       labels:
         app: els-password-generator
     spec:
+      nodeSelector:
+        karpenter.sh/nodepool: apps
       securityContext:
         runAsNonRoot: true
         runAsUser: 101
